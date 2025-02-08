@@ -1,0 +1,33 @@
+ static boolean isLeaf(Node root){
+        return root.left == null && root.right == null;
+    }
+    static void collectBL(Node root, ArrayList<Integer> res){
+        if(root == null || isLeaf(root)) return;
+        res.add(root.data);
+        if(root.left != null) collectBL(root.left, res);
+        else if(root.right != null) collectBL(root.right, res);
+    }
+    static void collectL(Node root, ArrayList<Integer> res){
+        if(root == null) return;
+        if(isLeaf(root)){
+            res.add(root.data);
+            return;
+        }
+        collectL(root.left, res);
+        collectL(root.right, res);
+    }
+    static void collectBR(Node root, ArrayList<Integer> res){
+        if(root == null || isLeaf(root)) return;
+        if(root.right != null) collectBR(root.right, res);
+        else if(root.left != null) collectBR(root.left, res);
+        res.add(root.data);
+    }
+    ArrayList<Integer> boundaryTraversal(Node root) {
+        ArrayList<Integer> al = new ArrayList<>();
+        if(root == null) return al;
+        if(!isLeaf(root)) al.add(root.data);
+        collectBL(root.left, al);
+        collectL(root, al);
+        collectBR(root.right, al);
+        return al;
+    }
